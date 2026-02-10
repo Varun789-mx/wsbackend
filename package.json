@@ -1,0 +1,24 @@
+{
+  "name": "wsbackend",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun --watch src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.6",
+    "@types/websocket": "^1.0.10",
+    "@types/ws": "^8.18.1",
+    "express": "^5.2.1",
+    "ws": "^8.19.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "ioredis": "^5.9.2",
+    "websocket": "^1.0.35"
+  }
+}
