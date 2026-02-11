@@ -1,6 +1,7 @@
 import WebSocket, { WebSocketServer } from "ws";
 import http from "http";
 import Redis from "ioredis";
+import { timeStamp } from "console";
 
 let count = 0;
 
@@ -194,8 +195,21 @@ export class WebsocketManager {
                     }
 
                     // Only process message-type messages (skip other commands)
-                    if (parsedMessage.type !== "message") {
+                    if (parsedMessage.type !== "message" && parsedMessage.type !== "leave") {
                         console.warn(`[Ignored] Message type: ${parsedMessage.type}`);
+                        return;
+                    }
+                    if (parsedMessage.type === "leave") {
+                        console.warn(`[Closed connection] Message type: ${parsedMessage.type}`);
+                        const redisPayload = {
+                            type: "leave",
+                            content: `${parsedMessage.sender} left the chat`,
+                            timeStamp: Date.now(),
+                            room: room,
+                        }
+                        this.publisher.publish(room, JSON.stringify(redisPayload));
+                        this.roomMap.delete(ws);
+                        ws.close();
                         return;
                     }
 

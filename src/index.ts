@@ -22,7 +22,7 @@ async function Init() {
         webSocketManager.wss.handleUpgrade(request, socket, head, (ws) => {
             const RequestTimeout = setTimeout(() => {
                 ws.send("Client did not send the join message");
-                ws.send("Please send the join message in correct format");
+                ws.send("Error invalid inputs Please send the join message in correct format");
                 console.log("Server disconnected because client did't send the join request")
                 ws.close(1002, "Server disconnected")
             }, 5000);
