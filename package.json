@@ -5,8 +5,8 @@
   "private": true,
   "scripts": {
     "dev": "bun --watch src/index.ts",
-    "build":"bun tsc -b",
-    "start":"bun src/index.ts"
+    "build": "bun tsc -b",
+    "start": "bun src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -17,7 +17,7 @@
     "ws": "^8.19.0"
   },
   "peerDependencies": {
-    "typescript": "^5"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "ioredis": "^5.9.2",
