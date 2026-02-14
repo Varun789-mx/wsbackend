@@ -36,7 +36,8 @@ async function Init() {
         clearTimeout(RequestTimeout);
         try {
           const ClientMessage: ClientMessage = JSON.parse(data.toString());
-          if (ClientMessage.type == "join" || ClientMessage.room) {
+          if (ClientMessage.type == "join" && ClientMessage.room && String(ClientMessage.room).trim() !== "") {
+            console.log("Received join message from client:", ClientMessage);
             const roomId = String(ClientMessage.room);
             webSocketManager.setRoom(ws, roomId);
             console.log(`Client succesfully Joined the ${roomId} `);
