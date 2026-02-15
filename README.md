@@ -23,18 +23,21 @@ To install dependencies:
 
 ```bash
 bun install
+```
 To start the server:
-
+```bash
 bun run start
+```
 By default the server listens on:
-
+```bash
 ws://localhost:5000
+```
 You can override the port by setting PORT in your environment.
 
 📡 WebSocket API
 📥 Expected First Message (Join)
 When the client connects, the server expects JSON as the first message with type: "join".
-
+```bash
 {
   "type": "join",
   "room": "roomId"
@@ -59,7 +62,9 @@ ws.onmessage = (event) => {
   const data = JSON.parse(event.data);
   console.log("Message from server:", data);
 };
+```
 📁 Project Structure
+```bash
 wsbackend/
 ├── src/
 │   └── index.ts           # Main server
@@ -69,15 +74,18 @@ wsbackend/
 ├── tsconfig.json
 ├── bun.lock
 └── README.md
+```
 ⚠️ Notes & Current Status
 ❗ Initial Join Required
 The server only accepts a client that sends a valid join message as the first message.
 If this is not sent within ~5 seconds, the server sends:
 
+```bash
 {
   "type": "Error",
   "message": "No join message received"
 }
+```
 Then disconnects the client.
 
 🚧 Future Improvements
@@ -91,4 +99,3 @@ Add automated tests
 
 📜 License
 This project is open source and available under the MIT License.
-
