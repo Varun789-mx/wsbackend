@@ -196,7 +196,8 @@ export class WebsocketManager {
           // Only process message-type messages (skip other commands)
           if (
             parsedMessage.type !== "message" &&
-            parsedMessage.type !== "leave"
+            parsedMessage.type !== "leave" &&
+            parsedMessage.type !== "DeleteShape"
           ) {
             console.warn(`[Ignored] Message type: ${parsedMessage.type}`);
             return;
@@ -216,7 +217,16 @@ export class WebsocketManager {
             ws.close();
             return;
           }
-
+          if (parsedMessage.type === 'DeleteShape') {
+            const redisPayload = {
+              type: "DeleteShape",
+              content: parsedMessage.content || messageText,
+              sender: parsedMessage.sender || "unknown",
+              timeStamp: Date.now(),
+              room: room,
+            }
+            this.publisher.publish(room, JSON.stringify(redisPayload));
+          }
           /**
            * PUBLISH STEP: Send message to Redis channel
            * This triggers the subscriber.on("message") handler
@@ -235,8 +245,8 @@ export class WebsocketManager {
           console.log(
             `[Published to Redis] Room: ${room} | Sender: ${redisPayload.sender}`,
           );
-       
-          
+
+
         } catch (error) {
           console.error(`[Error Publishing Message] ${error}`);
           ws.send(JSON.stringify({ error: "Failed to process message" }));
